@@ -1,0 +1,110 @@
+import statistics
+from datetime import *
+import dateutil.utils
+import pandas as pd
+from nsepy import *
+import json
+
+
+# global i,j,k
+L = ["M&M","HINDALCO", "GRASIM", "SBILIFE", "ULTRACEMCO", "EICHERMOT", "BRITANNIA", "BAJAJ-AUTO", "CIPLA", 'UPL',
+     'HINDUNILVR', 'POWERGRID', 'BHARTIARTL', 'TITAN', 'JSWSTEEL', 'ASIANPAINT', 'TATAMOTORS', 'TATASTEEL',"INDUSINDBK"]
+for po in L:
+    Symb = po
+    print("\n*********************   " ,po,"   *******************\n")
+    List1 = []
+    List2 = []
+    List3 = []
+    pd.set_option('display.max_columns', None)
+    pd.set_option('display.max_rows', None)
+
+    #
+    # tdy =
+    # if(TwentyD["Close"][0] == Tdydate)
+
+    TwentyD = get_history(symbol=Symb, start=(date.today() - timedelta(days=50)), end=date.today())
+    FiftyD = get_history(symbol=Symb, start=(date.today() - timedelta(days=80)), end=date.today())
+    TwoHunderedD = get_history(symbol=Symb, start=(date.today() - timedelta(days=500)), end=date.today())
+    TodaysDate = date.today() - timedelta(days=4)
+
+    # sbin = get_history(symbol='SBIN', start=date(2015,1,1), end=date(2015,2,1))
+    to = get_history(symbol=Symb, start=TodaysDate, end=date.today())
+
+    tod = to["Close"][0]
+
+
+    # print(pd.DataFrame(TwentyD))
+
+    def todayStockPrice(a):
+        return a
+
+
+    def TwentyDays(Twen):
+        # a = []
+        # for m in Twen:
+        #     a.append(m)
+        # # print(a)
+        x = statistics.mean(Twen)
+        return x
+
+
+    def TwoHunderedDays(two):
+        # a = []
+        # for m in two:
+        #     a.append(m)
+        # # print(a)
+        x = statistics.mean(two)
+        return x
+
+
+    def FiftyDays(Fift):
+        # a = []
+        # for m in Fift:
+        #     a.append(m)
+        # # print(a)
+        x = statistics.mean(Fift)
+        return x
+
+
+    for p in range(20):
+        q = TwentyD["Close"][p]
+        List1.append(q)
+
+    for j in range(50):
+        Fifty = FiftyD["Close"][j]
+        List2.append(Fifty)
+
+    # print(FiftyDays(List2))
+
+    for k in range(200):
+        TwoHundred = TwoHunderedD["Close"][k]
+        List3.append(TwoHundred)
+
+    Today = todayStockPrice(tod)
+    Twenty_Days = TwentyDays(List1)
+    Fifty_Days = FiftyDays(List2)
+    Two_Hundered_Days = TwoHunderedDays(List3)
+
+    print("200 Days Average  Stock Price = ", round(Two_Hundered_Days , 2))
+    print("50 Days  Average  Stock Price = ", round(Fifty_Days , 2))
+    print("20 Days  Average  Stock Price = ", round(Twenty_Days , 2))
+    print("Today's  Average  Stock Price = ", round(Today,2))
+    print("\n")
+
+    if (Today < (Twenty_Days < (Fifty_Days < Two_Hundered_Days))):
+        print(" Decreasing Since past 200 Days")
+    elif (Today < (Twenty_Days < (Fifty_Days))):
+        print("Its decreasing since 50 Days")
+    elif (Today < (Twenty_Days)):
+        print("Its Decreasing in Last 20 Days")
+    else:
+        print("Not Decreasing at all")
+    # 
+    # aun = json.dumps((List2))
+    # print(aun)
+#
+# K=[1,2,3,4,5,6]
+# appl[5]
+# TEST.CSV
+# "APPL,"+apl[5]+","+apl[6]+","+apl[7]+","+apl[8]
+#
